@@ -1,0 +1,14 @@
+# ── paper-time Dev Override ─────────────────────────────────
+# Layer on top of docker-compose.yml for hot-reload development:
+#   docker compose -f docker-compose.yml -f compose.dev.yml up
+# ───────────────────────────────────────────────────────────
+
+services:
+  backend:
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./backend:/app
+      - /app/.venv
+      - papertime_data:/app/data
+    environment:
+      ENVIRONMENT: development

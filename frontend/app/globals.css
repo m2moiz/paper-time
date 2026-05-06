@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+:root {
+  /* Excalidraw / hand-drawn paper palette */
+  --paper-cream: #FAF9F6;
+  --paper-cream-deep: #F4F0E6;
+  --ink-black: #1F1B16;
+  --ink-soft: #4A443D;
+  --ink-muted: #8A8378;
+  --pencil-gray: #B8B0A4;
+  --highlight-yellow: #FFE89E;
+  --accent-coral: #E26D5A;
+  --accent-teal: #4F8C84;
+  --font-handdrawn: 'Caveat', 'Patrick Hand', cursive;
+
+  /* Legacy glass tokens (kept for fallback, no longer rendered) */
+  --background: var(--paper-cream);
+  --foreground: var(--ink-black);
+
+  /* Glass surfaces — kept for any residual usage */
+  --glass-white: rgba(255, 255, 255, 0.06);
+  --glass-white-hover: rgba(255, 255, 255, 0.10);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --glass-highlight: rgba(255, 255, 255, 0.12);
+
+  /* Accent (legacy — kept for backwards-compat with accent-green/red) */
+  --accent: #a0a0a0;
+  --accent-hover: #ffffff;
+  --accent-green: #7dd19b;
+  --accent-red: #f27066;
+
+  /* Typography */
+  --text-primary: var(--ink-black);
+  --text-secondary: var(--ink-soft);
+  --text-muted: var(--ink-muted);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-handdrawn: var(--font-handdrawn);
+}
+
+body {
+  background: var(--paper-cream);
+  color: var(--ink-black);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Sketchy / hand-drawn card border — Excalidraw aesthetic */
+.sketchy-border {
+  border: 2px solid var(--ink-black);
+  border-radius: 12px 18px 14px 16px / 16px 12px 18px 14px;
+  box-shadow: 3px 3px 0 0 var(--ink-black);
+  background: var(--paper-cream);
+}
+
+/* Marker highlight utility */
+.marker-highlight {
+  background: linear-gradient(120deg, var(--highlight-yellow) 0%, var(--highlight-yellow) 100%);
+  background-size: 100% 0.5em;
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  padding: 0 0.1em;
+}
+
+/* Paper card (replaces glassmorphism card) */
+.glass-card {
+  background: var(--paper-cream-deep);
+  border: 2px solid var(--ink-black);
+  border-radius: 12px 18px 14px 16px / 16px 12px 18px 14px;
+  box-shadow: 3px 3px 0 0 var(--ink-black);
+}
+
+.glass-card-hover:hover {
+  background: var(--paper-cream);
+  border-color: var(--ink-soft);
+}
+
+/* Legacy shard animations — no longer rendered but kept for CSS completeness */
+@keyframes shard-float {
+  0%, 100% { transform: translateY(0) rotate(var(--shard-rotate, 0deg)); }
+  50% { transform: translateY(var(--shard-y, -12px)) rotate(calc(var(--shard-rotate, 0deg) + 3deg)); }
+}
+
+@keyframes shard-shimmer {
+  0%, 100% { opacity: var(--shard-opacity-low, 0.02); }
+  50% { opacity: var(--shard-opacity-high, 0.06); }
+}
+
+/* Spotlight animation */
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease 0.75s 1 forwards;
+}
+
+/* Custom scrollbar — ink palette */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper-cream-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pencil-gray);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--highlight-yellow);
+  color: var(--ink-black);
+}
+
+/* KaTeX styling for paper theme */
+.katex {
+  color: var(--ink-soft);
+  font-size: 1.05em;
+}
+
+/* Inline math styling */
+.markdown-content .katex:not(.katex-display .katex) {
+  color: var(--ink-black);
+  font-size: 1.05em;
+}
+
+/* Display math block styling — prominent, centered, breathing room */
+.markdown-content .katex-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem -1rem;
+  padding: 1.75rem 2rem;
+  background: var(--paper-cream-deep);
+  border-radius: 12px 18px 14px 16px / 16px 12px 18px 14px;
+  border: 2px solid var(--pencil-gray);
+  box-shadow: 2px 2px 0 0 var(--pencil-gray);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-content .katex-display > .katex {
+  text-align: center;
+  color: var(--ink-black);
+}
+
+/* Display math — larger, bolder, and more readable */
+.markdown-content .katex-display .katex {
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+/* Prevent overflow on small screens */
+.katex-html {
+  white-space: nowrap;
+}
+
+/* Smooth scrollbar for equations */
+.markdown-content .katex-display::-webkit-scrollbar {
+  height: 4px;
+}
+
+.markdown-content .katex-display::-webkit-scrollbar-track {
+  background: var(--paper-cream-deep);
+  border-radius: 2px;
+}
+
+.markdown-content .katex-display::-webkit-scrollbar-thumb {
+  background: var(--pencil-gray);
+  border-radius: 2px;
+}
+
+.markdown-content .katex-display::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
+}
+
+/* Math colors */
+.katex .mathnormal,
+.katex .mathdefault,
+.katex .mathit {
+  color: inherit;
+}
+
+.katex .mord,
+.katex .mbin,
+.katex .mrel,
+.katex .mopen,
+.katex .mclose,
+.katex .mpunct,
+.katex .minner {
+  color: inherit;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  canvas {
+    animation: none;
+  }
+
+  /* Disable section fade-in/slide transitions */
+  [data-section-id] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Disable stacked card 3D transforms and transitions */
+  [data-card-index] {
+    transition: none !important;
+  }
+}

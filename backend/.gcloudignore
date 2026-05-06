@@ -1,0 +1,45 @@
+# Cloud Build upload filter for `gcloud run deploy --source .`
+# When this file exists, gcloud uses these rules INSTEAD OF .gitignore — which
+# is critical for paper-time because root-level .gitignore excludes *.db, but
+# the Docker image needs backend/papertime.db (the seed cache).
+
+# Python build artifacts
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local-only env files
+.env
+.env.*
+!.env.example
+
+# Generated outputs (not seed assets — those live in media/videos/)
+generated_output/
+demo_scenes/
+demo-videos/
+test_output/
+
+# Editor / OS noise
+.DS_Store
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Tests (skip from build context)
+tests/
+
+# IMPORTANT: do NOT exclude these — they are seeded into the image:
+#   papertime.db          (cached paper data)
+#   papertime.db-wal      (SQLite WAL — only if app was running when committed)
+#   papertime.db-shm      (SQLite SHM — same)
+#   media/videos/*.mp4  (pre-rendered demo videos)

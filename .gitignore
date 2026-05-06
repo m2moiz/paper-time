@@ -1,0 +1,69 @@
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+# Allow .env.example to be committed
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+*.egg
+
+# JS / TS
+node_modules/
+.next/
+dist/
+.turbo/
+*.tsbuildinfo
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Databases
+*.db
+*.sqlite3
+# SQLite WAL / SHM runtime siblings (filesystem locks, not source artifacts)
+*.db-shm
+*.db-wal
+backend/papertime.db-shm
+backend/papertime.db-wal
+
+# Outputs / artifacts
+backend/generated_output/
+backend/media/
+server/outputs/*
+!server/outputs/.gitkeep
+
+# External MCP server clone
+manim-mcp-server/
+
+# Internal planning artefacts (kept local; not for distribution)
+.planning/
+CLAUDE.md
+backend/CLAUDE.md
+SESSION_CONTEXT.md
+research/
+.claude/worktrees/

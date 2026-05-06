@@ -1,0 +1,35 @@
+# ── paper-time Render Blueprint ─────────────────────────────
+# Deploy with: render.com → New → Blueprint → connect this repo
+# ────────────────────────────────────────────────────────────
+
+services:
+  - type: web
+    name: paper-time-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    # Starter ($7/mo): 512 MB RAM, no auto-sleep. Sufficient for serving
+    # cached MP4s and the demo flow. Switch to standard ($25/mo) if you
+    # need live Manim renders during demo (RAM-hungry).
+    plan: starter
+    region: oregon
+    healthCheckPath: /api/health
+    # No persistent disk: docker-entrypoint.sh re-seeds /app/data from
+    # /app/seed (baked into the image) on every container start, so the
+    # cached "Attention Is All You Need" + GPT-3 demo content survives
+    # restarts via the image, not via a paid persistent volume.
+    envVars:
+      # LLM — set in Render dashboard; never committed
+      - key: DEDALUS_API_KEY
+        sync: false
+      # Storage: local disk (persisted at /app/data via disk: block above)
+      # Switch to r2 post-hackathon if CDN delivery is needed
+      - key: STORAGE_MODE
+        value: local
+      - key: RENDER_MODE
+        value: local
+      # Server
+      - key: ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 10000
